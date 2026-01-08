@@ -14,6 +14,28 @@ This MCP server delivers real-time weather data with hilariously profane descrip
 - 🌐 RESTful API endpoints
 - ✅ Comprehensive unit tests
 - 🚀 Built with .NET 10
+- ☁️ **Azure deployment ready** - Full Azure deployment guide included
+
+## 🚀 Deploy to Azure
+
+Want to share this as a cloud service? We've got you covered with complete Azure deployment support!
+
+**Quick Deploy (5 minutes):**
+```bash
+export WEATHER_API_KEY="your_api_key"
+./scripts/deploy-azure.sh dev
+```
+
+**Learn More:**
+- 📖 [Quick Start Guide](AZURE_QUICKSTART.md) - Get deployed in 5 minutes
+- 📘 [Full Deployment Guide](AZURE_DEPLOYMENT.md) - Comprehensive documentation
+- 🛠️ [Infrastructure Templates](infrastructure/README.md) - Bicep IaC templates
+- 📚 [Advanced Examples](docs/README.md) - Authentication, monitoring, and more
+
+**Deployment Options:**
+- Azure App Service (~$15-90/month)
+- Azure Container Apps (~$30-50/month)
+- Automated CI/CD with GitHub Actions
 
 ## Technology Stack
 
@@ -256,6 +278,40 @@ docker build -t fukn-weather:latest .
 ```bash
 docker-compose up
 ```
+
+## Azure Deployment
+
+Deploy this MCP service to Azure as a shared service for external users. See the comprehensive [Azure Deployment Guide](AZURE_DEPLOYMENT.md) for:
+
+- **Step-by-step deployment instructions** for Azure App Service and Container Apps
+- **Infrastructure as Code (IaC)** with Bicep templates
+- **Automated deployment scripts** for bash and PowerShell
+- **CI/CD pipeline** with GitHub Actions
+- **Security best practices** including Key Vault integration
+- **Monitoring and scaling** configurations
+- **Cost estimates** for different deployment scenarios
+
+### Quick Deploy to Azure
+
+```bash
+# Set your API key
+export WEATHER_API_KEY="your_openweathermap_api_key"
+
+# Run deployment script
+./scripts/deploy-azure.sh dev
+```
+
+Or use the Bicep template directly:
+
+```bash
+az deployment group create \
+  --resource-group rg-fukn-weather-dev \
+  --template-file infrastructure/main.bicep \
+  --parameters infrastructure/parameters.json \
+  --parameters weatherApiKey="$WEATHER_API_KEY"
+```
+
+For detailed instructions, see [AZURE_DEPLOYMENT.md](AZURE_DEPLOYMENT.md).
 
 ## Configuration
 
