@@ -1,6 +1,7 @@
 using System.Text.Json;
 using FuknWeather.Api.Models;
 using FuknWeather.Api.Configuration;
+using FuknWeather.Api.Utilities;
 using Microsoft.Extensions.Options;
 
 namespace FuknWeather.Api.Services;
@@ -31,9 +32,9 @@ public class WeatherService : IWeatherService
     public async Task<WeatherResponse> GetWeatherAsync(string zipCode)
     {
         // Validate zip code format
-        if (string.IsNullOrEmpty(zipCode) || zipCode.Length != 5 || !zipCode.All(char.IsDigit))
+        if (!ValidationHelper.IsValidZipCode(zipCode, out var errorMessage))
         {
-            throw new ArgumentException("Invalid zip code format. Must be 5 digits.", nameof(zipCode));
+            throw new ArgumentException(errorMessage, nameof(zipCode));
         }
 
         // Example using OpenWeatherMap API

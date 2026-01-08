@@ -1,5 +1,6 @@
 using System.Text.Json;
 using FuknWeather.Api.Services;
+using FuknWeather.Api.Utilities;
 
 namespace FuknWeather.Api.MCP;
 
@@ -35,12 +36,12 @@ public class McpServer
 
         var zipCode = arguments.GetProperty("zipCode").GetString();
         
-        if (string.IsNullOrEmpty(zipCode) || zipCode.Length != 5)
+        if (!ValidationHelper.IsValidZipCode(zipCode, out var errorMessage))
         {
-            throw new ArgumentException("Invalid zip code format. Must be 5 digits.");
+            throw new ArgumentException(errorMessage);
         }
 
-        var weather = await _weatherService.GetWeatherAsync(zipCode);
+        var weather = await _weatherService.GetWeatherAsync(zipCode!);
         return weather;
     }
 
