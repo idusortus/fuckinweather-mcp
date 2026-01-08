@@ -14,6 +14,28 @@ This MCP server delivers real-time weather data with hilariously profane descrip
 - 🌐 RESTful API endpoints
 - ✅ Comprehensive unit tests
 - 🚀 Built with .NET 10
+- ☁️ **Azure deployment ready** - Full Azure deployment guide included
+
+## 🚀 Deploy to Azure
+
+Want to share this as a cloud service? We've got you covered with complete Azure deployment support!
+
+**Quick Deploy (5 minutes):**
+```bash
+export WEATHER_API_KEY="your_api_key"
+./scripts/deploy-azure.sh dev
+```
+
+**Learn More:**
+- 📖 [Quick Start Guide](AZURE_QUICKSTART.md) - Get deployed in 5 minutes
+- 📘 [Full Deployment Guide](AZURE_DEPLOYMENT.md) - Comprehensive documentation
+- 🛠️ [Infrastructure Templates](infrastructure/README.md) - Bicep IaC templates
+- 📚 [Advanced Examples](docs/README.md) - Authentication, monitoring, and more
+
+**Deployment Options:**
+- Azure App Service (~$15-90/month)
+- Azure Container Apps (~$30-50/month)
+- Automated CI/CD with GitHub Actions
 
 ## Technology Stack
 
