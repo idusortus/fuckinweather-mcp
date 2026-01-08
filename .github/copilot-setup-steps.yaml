@@ -43,7 +43,7 @@ environment:
 
 # Notes for developers
 notes: |
-  - This is an MCP (Model Context Protocol) server project
-  - Ensure all code follows TypeScript best practices
-  - Test with MCP-compatible clients before finalizing changes
-  - Keep dependencies minimal and secure
+  This is an MCP (Model Context Protocol) server project.
+  Ensure all code follows TypeScript best practices.
+  Test with MCP-compatible clients before finalizing changes.
+  Keep dependencies minimal and secure.
