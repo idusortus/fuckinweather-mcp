@@ -1,0 +1,49 @@
+# Copilot Setup Steps Configuration
+# This file defines the setup steps for the GitHub Copilot coding agent environment
+
+# Prerequisites for building and testing this project
+steps:
+  # Install Node.js and npm dependencies
+  - name: Setup Node.js
+    description: Install Node.js and npm for running the MCP server
+    run: |
+      # Node.js is typically pre-installed in GitHub Actions
+      node --version
+      npm --version
+  
+  # Install project dependencies
+  - name: Install Dependencies
+    description: Install npm packages required by the project
+    run: |
+      npm install
+  
+  # Run linting (if configured)
+  - name: Lint Code
+    description: Check code quality and style
+    run: |
+      npm run lint || echo "Linting not yet configured"
+  
+  # Build the project (if build step exists)
+  - name: Build Project
+    description: Compile TypeScript and prepare the project
+    run: |
+      npm run build || echo "Build script not yet configured"
+  
+  # Run tests (if tests exist)
+  - name: Run Tests
+    description: Execute test suite to validate changes
+    run: |
+      npm test || echo "Tests not yet configured"
+
+# Environment variables that might be needed (without actual secrets)
+environment:
+  NODE_ENV: development
+  # Add other non-sensitive environment variables here
+  # Secrets should be configured in GitHub repository settings
+
+# Notes for developers
+notes: |
+  - This is an MCP (Model Context Protocol) server project
+  - Ensure all code follows TypeScript best practices
+  - Test with MCP-compatible clients before finalizing changes
+  - Keep dependencies minimal and secure
