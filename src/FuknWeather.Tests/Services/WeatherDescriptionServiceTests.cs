@@ -19,13 +19,13 @@ public class WeatherDescriptionServiceTests
     [Theory]
     [InlineData(-10, "witch's tit")]
     [InlineData(15, "ball-shriveling")]
-    [InlineData(30, "Freezing")]
+    [InlineData(30, "ass off")]
     [InlineData(45, "damn chilly")]
     [InlineData(65, "fucking nice")]
     [InlineData(75, "Beautiful as fuck")]
     [InlineData(85, "hot as balls")]
     [InlineData(97, "Satan's asshole")]
-    [InlineData(105, "Ungodly")]
+    [InlineData(105, "fucking hot")]
     [InlineData(115, "apocalyptic")]
     public void GetColorfulDescription_ReturnsExpectedRange(decimal temp, string expectedPhrase)
     {

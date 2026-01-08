@@ -85,8 +85,8 @@ dotnet run
 ```
 
 The API will be available at:
-- HTTPS: `https://localhost:7000`
-- HTTP: `http://localhost:5000`
+- HTTPS: `https://localhost:7012`
+- HTTP: `http://localhost:5263`
 
 ## API Endpoints
 
@@ -98,7 +98,7 @@ GET /api/weather/{zipCode}
 
 **Example:**
 ```bash
-curl https://localhost:7000/api/weather/10001
+curl https://localhost:7012/api/weather/10001
 ```
 
 **Response:**
@@ -119,7 +119,7 @@ POST /api/weather/mcp/tools
 
 **Example:**
 ```bash
-curl -X POST https://localhost:7000/api/weather/mcp/tools
+curl -X POST https://localhost:7012/api/weather/mcp/tools
 ```
 
 **Response:**
@@ -153,7 +153,7 @@ POST /api/weather/mcp/call
 
 **Example:**
 ```bash
-curl -X POST https://localhost:7000/api/weather/mcp/call \
+curl -X POST https://localhost:7012/api/weather/mcp/call \
   -H "Content-Type: application/json" \
   -d '{
     "toolName": "get_fukn_weather",
