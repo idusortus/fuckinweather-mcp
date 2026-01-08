@@ -22,7 +22,18 @@ Since this is running in a CI environment without direct GitHub access, issues c
 5. Add labels as specified in the `labels:` field
 6. Create the issue
 
-### Option 2: GitHub CLI (if available)
+### Option 2: GitHub CLI - Automated Script (Recommended)
+
+Run the provided script to create all four issues at once:
+
+```bash
+cd .github/ISSUE_TEMPLATES
+./create_issues.sh
+```
+
+This script will create all four issues with proper titles, labels, and content.
+
+### Option 3: GitHub CLI - Manual Commands
 
 ```bash
 # Issue 1: Response Caching
@@ -50,7 +61,7 @@ gh issue create \
   --label "security,enhancement"
 ```
 
-### Option 3: GitHub API
+### Option 4: GitHub API
 
 ```bash
 # Example for Issue 1
