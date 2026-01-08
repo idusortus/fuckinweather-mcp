@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "value": "prod"
+    },
+    "location": {
+      "value": "eastus"
+    },
+    "weatherApiKey": {
+      "value": "YOUR_OPENWEATHERMAP_API_KEY_HERE"
+    },
+    "weatherApiBaseUrl": {
+      "value": "https://api.openweathermap.org/data/2.5"
+    },
+    "appServiceSku": {
+      "value": "S1"
+    },
+    "enableApplicationInsights": {
+      "value": true
+    },
+    "enableKeyVault": {
+      "value": true
+    },
+    "minInstances": {
+      "value": 2
+    },
+    "maxInstances": {
+      "value": 10
+    }
+  }
+}
