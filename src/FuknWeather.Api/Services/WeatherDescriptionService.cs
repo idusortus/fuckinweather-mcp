@@ -9,14 +9,14 @@ namespace FuknWeather.Api.Services;
 public class WeatherDescriptionService
 {
     private readonly WeatherDescriptionData _descriptionData;
-    private readonly Random _random;
+    private static readonly Random _sharedRandom = new Random();
+    private readonly object _lock = new object();
 
     /// <summary>
     /// Initializes a new instance of the WeatherDescriptionService.
     /// </summary>
     public WeatherDescriptionService()
     {
-        _random = new Random();
         _descriptionData = LoadDescriptions();
     }
 
@@ -60,7 +60,11 @@ public class WeatherDescriptionService
         {
             if (ranges.TryGetValue(tempRange, out var descriptions) && descriptions.Count > 0)
             {
-                var index = _random.Next(descriptions.Count);
+                int index;
+                lock (_lock)
+                {
+                    index = _sharedRandom.Next(descriptions.Count);
+                }
                 return descriptions[index];
             }
         }

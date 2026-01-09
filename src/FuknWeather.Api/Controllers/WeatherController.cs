@@ -102,7 +102,7 @@ public class WeatherController : ControllerBase
             {
                 TemperatureFahrenheit = temperature,
                 Description = description,
-                Rating = parsedRating.ToString(),
+                Rating = parsedRating == Rating.PG13 ? "PG-13" : parsedRating.ToString(),
                 ZipCode = "N/A",
                 Location = "N/A"
             });

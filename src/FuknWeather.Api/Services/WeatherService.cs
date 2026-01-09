@@ -14,7 +14,8 @@ public class WeatherService : IWeatherService
     private readonly HttpClient _httpClient;
     private readonly WeatherApiSettings _settings;
     private readonly WeatherDescriptionService _descriptionService;
-    private readonly Random _random;
+    private static readonly Random _sharedRandom = new Random();
+    private readonly object _lock = new object();
 
     /// <summary>
     /// Initializes a new instance of the WeatherService.
@@ -27,7 +28,6 @@ public class WeatherService : IWeatherService
         _httpClient = httpClient;
         _settings = settings.Value;
         _descriptionService = descriptionService;
-        _random = new Random();
     }
 
     /// <inheritdoc />
@@ -71,7 +71,7 @@ public class WeatherService : IWeatherService
             TemperatureFahrenheit = temperature,
             Description = description,
             Location = weatherData.Name,
-            Rating = rating.ToString()
+            Rating = rating == Rating.PG13 ? "PG-13" : rating.ToString()
         };
     }
 
@@ -85,7 +85,11 @@ public class WeatherService : IWeatherService
     public RandomWeatherResponse GetRandomWeather()
     {
         // Generate random temperature between -50 and 140
-        var randomTemp = _random.Next(-50, 141);
+        int randomTemp;
+        lock (_lock)
+        {
+            randomTemp = _sharedRandom.Next(-50, 141);
+        }
         
         var response = new RandomWeatherResponse
         {
