@@ -47,6 +47,92 @@ public class WeatherController : ControllerBase
     }
 
     /// <summary>
+    /// Gets weather information for a given zip code with a specific content rating.
+    /// </summary>
+    /// <param name="zipCode">5-digit US zip code.</param>
+    /// <param name="rating">Content rating (G, PG, PG13, R, X, BLAND).</param>
+    /// <returns>Weather response with description matching the rating.</returns>
+    [HttpGet("{zipCode}/{rating}")]
+    [ProducesResponseType(typeof(WeatherResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<WeatherResponse>> GetWeatherWithRating(string zipCode, string rating)
+    {
+        try
+        {
+            if (!Enum.TryParse<Rating>(rating, true, out var parsedRating))
+            {
+                return BadRequest(new { error = $"Invalid rating. Valid options: G, PG, PG13, R, X, BLAND" });
+            }
+            
+            var weather = await _weatherService.GetWeatherAsync(zipCode, parsedRating);
+            return Ok(weather);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
+
+    /// <summary>
+    /// Gets a weather description for a specific temperature and rating.
+    /// </summary>
+    /// <param name="temperature">Temperature in Fahrenheit.</param>
+    /// <param name="rating">Content rating (G, PG, PG13, R, X, BLAND).</param>
+    /// <returns>Weather description appropriate for the temperature and rating.</returns>
+    [HttpGet("temperature/{temperature}/{rating}")]
+    [ProducesResponseType(typeof(WeatherResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<WeatherResponse> GetWeatherByTemperature(decimal temperature, string rating)
+    {
+        try
+        {
+            if (!Enum.TryParse<Rating>(rating, true, out var parsedRating))
+            {
+                return BadRequest(new { error = $"Invalid rating. Valid options: G, PG, PG13, R, X, BLAND" });
+            }
+
+            if (temperature < -50 || temperature > 140)
+            {
+                return BadRequest(new { error = "Temperature must be between -50°F and 140°F" });
+            }
+
+            var description = _weatherService.GetDescriptionForTemperature(temperature, parsedRating);
+            
+            return Ok(new WeatherResponse
+            {
+                TemperatureFahrenheit = temperature,
+                Description = description,
+                Rating = parsedRating.ToString(),
+                ZipCode = "N/A",
+                Location = "N/A"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
+
+    /// <summary>
+    /// Generates a random temperature and provides descriptions for all ratings.
+    /// </summary>
+    /// <returns>Random weather response with descriptions for each rating.</returns>
+    [HttpGet("random")]
+    [ProducesResponseType(typeof(RandomWeatherResponse), StatusCodes.Status200OK)]
+    public ActionResult<RandomWeatherResponse> GetRandomWeather()
+    {
+        try
+        {
+            var randomWeather = _weatherService.GetRandomWeather();
+            return Ok(randomWeather);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
+
+    /// <summary>
     /// Lists all available MCP tools.
     /// </summary>
     /// <returns>List of MCP tools.</returns>

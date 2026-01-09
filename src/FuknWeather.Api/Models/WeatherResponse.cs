@@ -24,4 +24,9 @@ public class WeatherResponse
     /// Location name (city).
     /// </summary>
     public string Location { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Content rating used for the description (optional).
+    /// </summary>
+    public string? Rating { get; set; }
 }

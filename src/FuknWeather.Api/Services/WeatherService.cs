@@ -14,6 +14,7 @@ public class WeatherService : IWeatherService
     private readonly HttpClient _httpClient;
     private readonly WeatherApiSettings _settings;
     private readonly WeatherDescriptionService _descriptionService;
+    private readonly Random _random;
 
     /// <summary>
     /// Initializes a new instance of the WeatherService.
@@ -26,10 +27,17 @@ public class WeatherService : IWeatherService
         _httpClient = httpClient;
         _settings = settings.Value;
         _descriptionService = descriptionService;
+        _random = new Random();
     }
 
     /// <inheritdoc />
     public async Task<WeatherResponse> GetWeatherAsync(string zipCode)
+    {
+        return await GetWeatherAsync(zipCode, Rating.X);
+    }
+
+    /// <inheritdoc />
+    public async Task<WeatherResponse> GetWeatherAsync(string zipCode, Rating rating)
     {
         // Validate zip code format
         if (!ValidationHelper.IsValidZipCode(zipCode, out var errorMessage))
@@ -55,14 +63,43 @@ public class WeatherService : IWeatherService
         }
 
         var temperature = weatherData.Main.Temp;
-        var description = _descriptionService.GetColorfulDescription(temperature);
+        var description = _descriptionService.GetDescription(temperature, rating);
 
         return new WeatherResponse
         {
             ZipCode = zipCode,
             TemperatureFahrenheit = temperature,
             Description = description,
-            Location = weatherData.Name
+            Location = weatherData.Name,
+            Rating = rating.ToString()
         };
+    }
+
+    /// <inheritdoc />
+    public string GetDescriptionForTemperature(decimal temperature, Rating rating)
+    {
+        return _descriptionService.GetDescription(temperature, rating);
+    }
+
+    /// <inheritdoc />
+    public RandomWeatherResponse GetRandomWeather()
+    {
+        // Generate random temperature between -50 and 140
+        var randomTemp = _random.Next(-50, 141);
+        
+        var response = new RandomWeatherResponse
+        {
+            TemperatureFahrenheit = randomTemp
+        };
+
+        // Get descriptions for all ratings
+        foreach (Rating rating in Enum.GetValues(typeof(Rating)))
+        {
+            var ratingKey = rating == Rating.PG13 ? "PG-13" : rating.ToString();
+            var description = _descriptionService.GetDescription(randomTemp, rating);
+            response.DescriptionsByRating[ratingKey] = description;
+        }
+
+        return response;
     }
 }
